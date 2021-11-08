@@ -55,71 +55,66 @@ public class MaquinaExpendedoraMejorada {
      * Simula la introduccion de dinero por parte del 
      * cliente actual
      */
-    public void introducirDinero(int cantidadIntroducida) {
-        if (cantidadIntroducida > 0 && billetesVend1 < impresiones) {
-            balanceClienteActual = balanceClienteActual 
-                                    + cantidadIntroducida;
+    public void introducirDinero(int cantidadIntroducida) {    
+        if (cantidadIntroducida > 0) {
+            if (billetesVend1 < impresiones) {
+                balanceClienteActual = balanceClienteActual + cantidadIntroducida;
+            } else {
+                System.out.println("No puede introducir mas dinero, la maquina esta sin tinta.");
+            }
+        } 
+        else  {
+            System.out.println(cantidadIntroducida + " no es una cantidad de dinero valida.");             
         }
-        else if (cantidadIntroducida <= 0) {
-            System.out.println(cantidadIntroducida 
-                    + " no es una cantidad de dinero valida.");
-        }  
-        else if (cantidadIntroducida > 0 && billetesVend1 == impresiones) {
-            System.out.println("No puede introducir mas dinero, la maquina esta sin tinta.");
-        }        
+       
     }
 
     /**
      * Imprime un billete para el cliente actual
      */
-    public void imprimirBillete() {
+        
+        public void imprimirBillete() {
         int cantidadDeDineroQueFalta = precioBillete - balanceClienteActual;
- 
-        if (cantidadDeDineroQueFalta <= 0 && billetesVend1 < impresiones) {
-            // Reduce el balance del cliente actual dejandole seguir utilizando la maquina
-            balanceClienteActual = balanceClienteActual - precioBillete;
-            // Simula la impresion de un billete
-            System.out.println("##################");
-            System.out.println("# Billete de tren:");
-            System.out.println("# De " + estacionOrigen + " a " + estacionDestino);
-            System.out.println("# " + precioBillete + " euros.");
-            System.out.println("Saldo restante " + balanceClienteActual + " €.");
-            System.out.println("##################");
-            System.out.println();         
+        
+        if (billetesVend1 == impresiones) {
+            System.out.println("La maquina esta sin tinta si tiene dinero dentro seleccione cancelarOperacionYDevolverDinero");
+        }
+        else {
+            if(cantidadDeDineroQueFalta <= 0){
+                // Simula la impresion de un billete
+                System.out.println("##################");
+                System.out.println("# Billete de tren:");
+                System.out.println("# De " + estacionOrigen + " a " + estacionDestino);
+                System.out.println("# " + precioBillete + " euros.");
+                System.out.println("Saldo restante " + (balanceClienteActual - precioBillete) + " €.");
+                System.out.println("##################");
+                System.out.println();         
     
-            // Actualiza el total de dinero acumulado en la maquina
-            totalDineroAcumulado = totalDineroAcumulado 
-                                            + precioBillete;
-            // Reduce el balance del cliente actual dejandole seguir utilizando la maquina
-            
-            if (tipoMaquina == 2){
-                System.out.println("Tienes un descuento de " + precioBillete * 10 / 100 + " euros ");
-            } 
-            billetesVend1 = billetesVend1 + 1;
-        } 
-        
-        else if (cantidadDeDineroQueFalta >= 0 && billetesVend1 < impresiones ){
+                //suma un billete vendido
+                billetesVend1 = billetesVend1 + 1;
+                // Actualiza el total de dinero acumulado en la maquina
+                totalDineroAcumulado = totalDineroAcumulado + precioBillete;
+                // Reduce el balance del cliente actual dejandole seguir utilizando la maquina
+                balanceClienteActual = balanceClienteActual - precioBillete;
+                
+                if (tipoMaquina == 2){
+                        System.out.println("Tienes un descuento de " + precioBillete * 10 / 100 + " euros ");
+                }    
+            }  
+            else {
             System.out.println("Necesitas introducir " + (cantidadDeDineroQueFalta) + " euros mas!");
-        }
-        else if (balanceClienteActual == 0  && billetesVend1 == impresiones ){
-            System.out.println("La maquina esta sin tinta, no introduzca dinero.");
-        }
-        else if (balanceClienteActual >= 1 && billetesVend1 == impresiones ){
-            System.out.println("La maquina esta sin tinta, no introduzca mas dinero, sus " + balanceClienteActual +
-             " € han sido devueltos.");
-            balanceClienteActual = 0;
-            
-        } 
         
-        
+            }
+        }
     }
+
     
     /**
      * Cancela la operacion de compra del cliente actual y le
      * devuelve al cliente el dinero que ha introducido 
      * hasta el momento
      */
-    public int cancelarOperacionYDevolverDinero() {
+        public int cancelarOperacionYDevolverDinero() {
         int cantidadDeDineroADevolver;
         cantidadDeDineroADevolver = balanceClienteActual;
         balanceClienteActual = 0;
