@@ -16,6 +16,8 @@ public class MaquinaExpendedoraMejorada {
     private int tipoMaquina;
     //veces que imprime la maquina
     private int impresiones = 0;
+    //variable para los premios cada 3 billetes
+    private int multiplo3;
     
     
     /**
@@ -34,6 +36,7 @@ public class MaquinaExpendedoraMejorada {
         estacionDestino = destino;
         billetesVend1 = 0;
         impresiones = numeroMaxImpresiones;
+        multiplo3 = 1;
     }
     
     /**
@@ -76,6 +79,7 @@ public class MaquinaExpendedoraMejorada {
         public void imprimirBillete() {
         int cantidadDeDineroQueFalta = precioBillete - balanceClienteActual;
         
+        
         if (billetesVend1 == impresiones) {
             System.out.println("La maquina esta sin tinta si tiene dinero dentro seleccione cancelarOperacionYDevolverDinero");
         }
@@ -97,12 +101,20 @@ public class MaquinaExpendedoraMejorada {
                 // Reduce el balance del cliente actual dejandole seguir utilizando la maquina
                 balanceClienteActual = balanceClienteActual - precioBillete;
                 
-                if (tipoMaquina == 2){
-                        System.out.println("Tienes un descuento de " + precioBillete * 10 / 100 + " euros ");
+                if (tipoMaquina == 2 ){
+                    
+                    if(multiplo3 != 3){
+                        System.out.println("No te ha tocado el descuento :(");
+                        multiplo3 = multiplo3 + 1;
+                    }
+                    else{
+                        System.out.println("Tienes un descuento de " + precioBillete * 10 / 100 + " euros "); 
+                        multiplo3 = 1;
+                    }
                 }    
             }  
             else {
-            System.out.println("Necesitas introducir " + (cantidadDeDineroQueFalta) + " euros mas!");
+                    System.out.println("Necesitas introducir " + (cantidadDeDineroQueFalta) + " euros mas!");
         
             }
         }
